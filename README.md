@@ -23,6 +23,9 @@ OK, how do we do these things with Appium?
 | ---- | ---- |
 | driver.install_app(oath_to_app | Install app from app package on Appium host filesystem |
 | driver.remove_app(app_id) | Uninstall an app using its unique ID ("bundle ID" on iOS, "app package" on Android) |
+| driver.activate_app(app_id) | Start an already-installed app by its ID |
+| driver.terminate_app(app_id) | Stop an already-running app by its ID |
+| driver.is_app_installed(app_id) | Check whether an app is installed by its ID |
 
 
 The set of commands here is fairly symmetrical:
@@ -31,10 +34,24 @@ The set of commands here is fairly symmetrical:
     
     <img width="400" src="https://user-images.githubusercontent.com/70295997/223673671-419696a1-3c5c-49cd-ae6b-30b12586c26c.png">
     
-3. We can also uninstall an app by calling <code>driver.remove_app</code>. This takes a single parameter, which is the ID of an application on the system. On both Android and iOS, every app has a unique identifier that the system uses to keep track of apps and distinguish them from one another. The developer of the app sets this ID, so it should be a piece of information which is given to you when it comes time to automate the app. If you don't have access to the ID, there are ways you can discover it. If you need the ID for an iOS application, which is called a "bundle ID" for iOS, you can run this little script on a Mac, using the appropriate path to a <code>.app</code> file: <code>osascript -e 'id of app "/path/to/TheApp.app"'</code>. It will spit out the bundle ID for you. Or if you need the ID for an Android application, called an application package ID, we can use a little tool called <code>apkanalyzer</code> which is part of Android studio, and is hopefully now on your path. This command will run <code>apkanalyzer</code> and print out the application ID on macOS or Linux: <code>apkanalyzer -h manifest application-id /path/to/TheApp.apk</code>. If you're on Windows, it's easiest to find the menu item called "Analyze APK" from within Android Studio, which will let you select an APK file to inspect. OK, so if you have the application ID, you can call <code>driver.remove_app</code> to uninstall it for you! Like the previous command, this one has an interesting keyword argument that's only relevant for Android: <code>keepData</code>, which defaults to false, but you can set to true if you want. If you do that, then the app will be uninstalled but any user data will remain!
-4. In addition to installing and uninstalling, we can start applications using <code>driver.activate_app</code>. This command assumes the app is installed and takes an app ID as its single parameter. Note that on Android, starting applications can be a little bit more complex, and we have a whole unit dedicated to this, about Android Activities. So just know that if you use this command on Android, what you're doing is essentially equivalent to a user tapping the app's icon on the home screen. And this is often exactly what you want to do!
-5. As you might imagine, we can also stop or terminate apps using <code>driver.terminate_app</code>, and passing in the app ID. This just stops the app from running, it doesn't remove it from the device.
-6. And finally, we have access to the <code>driver.is_app_installed</code> command, which also takes an app ID, and whose purpose is to tell us whether an app is installed or not. It will return true if the app represented by the app ID is installed, and false otherwise.
+2. We can also uninstall an app by calling <code>driver.remove_app</code>. This takes a single parameter, which is the ID of an application on the system. On both Android and iOS, every app has a unique identifier that the system uses to keep track of apps and distinguish them from one another. The developer of the app sets this ID, so it should be a piece of information which is given to you when it comes time to automate the app. If you don't have access to the ID, there are ways you can discover it. If you need the ID for an iOS application, which is called a "bundle ID" for iOS, you can run this little script on a Mac, using the appropriate path to a <code>.app</code> file: <code>osascript -e 'id of app "/path/to/TheApp.app"'</code>. It will spit out the bundle ID for you.
+
+    <img width="400" src="https://user-images.githubusercontent.com/70295997/223679411-c6369d38-c7c4-421c-984f-506e8c4c66f6.png">
+
+    Or if you need the ID for an Android application, called an application package ID, we can use a little tool called <code>apkanalyzer</code> which is part of Android studio, and is hopefully now on your path. This command will run <code>apkanalyzer</code> and print out the application ID on macOS or Linux: <code>apkanalyzer -h manifest application-id /path/to/TheApp.apk</code>. 
+
+    <img width="400" src="https://user-images.githubusercontent.com/70295997/223679775-c1b13be1-ec24-4b6e-8313-9d3116f4fc6a.png">
+
+    If you're on Windows, it's easiest to find the menu item called "Analyze APK" from within Android Studio, which will let you select an APK file to inspect. OK, so if you have the application ID, you can call <code>driver.remove_app</code> to uninstall it for you! Like the previous command, this one has an interesting keyword argument that's only relevant for Android: <code>keepData</code>, which defaults to false, but you can set to true if you want. If you do that, then the app will be uninstalled but any user data will remain.
+
+    <img width="400" src="https://user-images.githubusercontent.com/70295997/223680491-2d04e195-6a82-4078-becd-3c4dfeb0aa4c.png">
+
+
+3. In addition to installing and uninstalling, we can start applications using <code>driver.activate_app</code>. This command assumes the app is installed and takes an app ID as its single parameter. Note that on Android, starting applications can be a little bit more complex, and we have a whole unit dedicated to this, about Android Activities. So just know that if you use this command on Android, what you're doing is essentially equivalent to a user tapping the app's icon on the home screen. And this is often exactly what you want to do!
+
+4. As you might imagine, we can also stop or terminate apps using <code>driver.terminate_app</code>, and passing in the app ID. This just stops the app from running, it doesn't remove it from the device.
+
+5. And finally, we have access to the <code>driver.is_app_installed</code> command, which also takes an app ID, and whose purpose is to tell us whether an app is installed or not. It will return true if the app represented by the app ID is installed, and false otherwise.
 
 Here is a Python example exhibiting the management commands for an open source [app](https://github.com/cloudgrey-io/the-app/releases):
 
