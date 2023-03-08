@@ -46,12 +46,13 @@ The set of commands here is fairly symmetrical:
 
     <img width="400" src="https://user-images.githubusercontent.com/70295997/223680491-2d04e195-6a82-4078-becd-3c4dfeb0aa4c.png">
 
-
 3. In addition to installing and uninstalling, we can start applications using <code>driver.activate_app</code>. This command assumes the app is installed and takes an app ID as its single parameter. Note that on Android, starting applications can be a little bit more complex, and we have a whole unit dedicated to this, about Android Activities. So just know that if you use this command on Android, what you're doing is essentially equivalent to a user tapping the app's icon on the home screen. And this is often exactly what you want to do!
 
 4. As you might imagine, we can also stop or terminate apps using <code>driver.terminate_app</code>, and passing in the app ID. This just stops the app from running, it doesn't remove it from the device.
 
 5. And finally, we have access to the <code>driver.is_app_installed</code> command, which also takes an app ID, and whose purpose is to tell us whether an app is installed or not. It will return true if the app represented by the app ID is installed, and false otherwise.
+
+## Practice Example
 
 Here is a Python example exhibiting the management commands for an open source [app](https://github.com/cloudgrey-io/the-app/releases):
 
@@ -79,7 +80,6 @@ Here is a Python example exhibiting the management commands for an open source [
         driver.terminate_app(app_id)
     finally:
         driver.quit()
-
 
 We're launching the session with TheApp, but we also have the ApiDemos APK handy. Let's test with it. But first, I want to find out the package ID of this ApiDemos application, so I'll switch over to the terminal and run the following command:
 
