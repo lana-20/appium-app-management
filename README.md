@@ -1,5 +1,7 @@
 # Appium App Management
 
+*Apps are key objects in the mobile OS ecosystem. Learn how to use Appium's special commands for installing, removing, and working with apps.*
+
 ## Working with Apps
 
 In addition to all the device management commands that Appium provides, there is a set of commands specifically related to managing apps on devices.
